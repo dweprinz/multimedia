@@ -12,7 +12,7 @@ wheels/
 uv.lock
 
 archive/
-hierchical_datasets/GRIT/trees/
+# hierchical_datasets/GRIT/trees/
 hierchical_datasets/ImageNet/trees/
 imagenet/
 
