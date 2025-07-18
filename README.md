@@ -1,6 +1,36 @@
 # HIVE: Hyperbolic Interactive Visualization Explorer
 
-An interactive dashboard for exploring hierarchical data in hyperbolic space using the Poincaré disk model.
+<p align="center">
+  <a href="https://openreview.net/pdf?id=D9LlujFg7d" target="_blank"><img src="https://img.shields.io/badge/View%20Paper-OpenReview-blue" alt="View Paper"></a>
+  <a href="#demo"><img src="https://img.shields.io/badge/Demo-Dashboard-green" alt="Demo"></a>
+  <a href="#citation"><img src="https://img.shields.io/badge/Cite%20Us-arXiv%20preprint-orange" alt="Cite"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="License"></a>
+  <a href="https://github.com/thijmen/multimedia/issues"><img src="https://img.shields.io/badge/Issues-Report%20Issue-red" alt="Issues"></a>
+</p>
+
+---
+
+## Overview
+
+**HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic representations of data. The dashboard is the main contribution of this repository and is designed to be extensible: while we currently provide the HyCoCLIP model and the GRIT and ImageNet datasets as examples, **any model and dataset combination can be added by forking this repository**.
+
+---
+
+## [View Paper](https://openreview.net/pdf?id=D9LlujFg7d)
+
+If you use this dashboard or its ideas in your research, please consider citing our paper!
+
+---
+
+## Features
+- Interactive visualization of hierarchical and hyperbolic embeddings
+- Support for multiple datasets (GRIT, ImageNet, and more via extension)
+- Compare different projection methods (e.g., HoroPCA, CO-SNE)
+- Dual-view and single-view modes
+- Tree, neighbor, and interpolation exploration modes
+- Extensible to new models and datasets
+
+---
 
 ## Setup Instructions
 
@@ -32,30 +62,46 @@ uv run src/main.py
 
 The dashboard will be available at `http://localhost:8081`
 
-## Overview
+---
 
-HIVE provides an interactive interface for visualizing and exploring hierarchical relationships in data using hyperbolic geometry. The tool is particularly useful for understanding complex parent-child relationships and taxonomic structures.
+## Usage
+- Select a dataset (e.g., GRIT or ImageNet) from the dropdown.
+- Choose a projection method (HoroPCA, CO-SNE, etc.).
+- Explore the data using the interactive plot:
+  - **Compare:** Select up to 5 points to compare.
+  - **Interpolate:** Select 2 points to interpolate between.
+  - **Tree:** Select a point to view its lineage.
+  - **Neighbors:** Select a point to view its neighbors.
+- Use the dual-view mode to compare projections side-by-side.
 
-### Key Features
+---
 
-- **Interactive Poincaré Disk Visualization**: Explore data in 2D hyperbolic space
-- **Multiple Projection Methods**: Compare HoroPCA and CO-SNE embeddings
-- **Hierarchical Data Exploration**: Navigate parent-child relationships through tree structures
-- **Hyperbolic Space Traversal**: Create and follow geodesic paths between points
-- **Real-time Analysis**: Select points to view associated images and text content
-- **Dual View Mode**: Side-by-side comparison of different projection methods
+## Adding New Models or Datasets
+To add your own model or dataset:
+1. Fork this repository.
+2. Follow the structure of the provided examples (see `hierchical_datasets/`).
+3. Add your data and update the dashboard configuration as needed.
+4. Submit a pull request if you think your extension would benefit the community!
 
-### Datasets
+---
 
-- **ImageNet**: Hierarchical image classification with semantic relationships
-- **GRIT**: Grounded image-text dataset with parent-child associations
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request for bug fixes, new features, or dataset/model integrations.
 
-### Use Cases
+---
 
-- Understanding hierarchical embeddings quality
-- Exploring taxonomic relationships in data
-- Analyzing knowledge graph structures
-- Validating hyperbolic space representations
-- Educational visualization of hyperbolic geometry
+## Citation
+If you use HIVE or its dashboard in your research, please cite:
 
-The tool is meant for researchers and practitioners working with hierarchical data and hyperbolic embeddings.
+```
+@inproceedings{nijdamhive,
+  title={HIVE: A Hyperbolic Interactive Visualization Explorer for Representation Learning},
+  author={Nijdam, Thijmen and Prinzhorn, Derck WE and de Heus, Jurgen and Brouwer, Thomas},
+  booktitle={2nd Beyond Euclidean Workshop: Hyperbolic and Hyperspherical Learning for Computer Vision}
+}
+```
+
+---
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
