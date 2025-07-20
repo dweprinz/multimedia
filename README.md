@@ -17,7 +17,17 @@
 
 ---
 
-## Standard Data Processing Pipeline
+## Features
+- Interactive visualization of hierarchical and hyperbolic embeddings
+- Support for multiple datasets (GRIT, ImageNet, and more via extension)
+- Compare different projection methods (HoroPCA, CO-SNE)
+- Dual-view and single-view modes
+- Tree, neighbor, and interpolation exploration modes
+- Extensible to new models and datasets
+
+---
+
+## How the data was processed, and how to add your own
 
 To visualize your data in HIVE, follow this modular pipeline:
 
@@ -60,19 +70,6 @@ To visualize your data in HIVE, follow this modular pipeline:
      ```
    - The dashboard will be available at `http://localhost:8081`
 
----
-
-## Features
-- Interactive visualization of hierarchical and hyperbolic embeddings
-- Support for multiple datasets (GRIT, ImageNet, and more via extension)
-- Compare different projection methods (HoroPCA, CO-SNE)
-- Dual-view and single-view modes
-- Tree, neighbor, and interpolation exploration modes
-- Extensible to new models and datasets
-
----
-
-## Adding New Datasets or Models
 
 To add your own dataset or model for visualization in HIVE:
 
