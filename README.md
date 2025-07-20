@@ -7,13 +7,9 @@
   <a href="https://github.com/thijmennijdam/HIVE/issues"><img src="https://img.shields.io/badge/Issues-Report%20Issue-red" alt="Issues"></a>
 </p>
 
----
-
 ## Overview
 
 **HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic representations of data. The dashboard is the main contribution of this repository and is designed to be extensible: while we currently provide the HyCoCLIP model and the GRIT and ImageNet datasets as examples, **any model and dataset combination can be added by following the modular pipeline below**.
-
-> **Note:** The included models and datasets are for demonstration purposes. The dashboard is designed to be general and adaptable to new research and data.
 
 ---
 
