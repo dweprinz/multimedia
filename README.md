@@ -1,3 +1,6 @@
+
+---
+
 # HIVE: Hyperbolic Interactive Visualization Explorer
 
 <p align="center">
@@ -7,173 +10,102 @@
   <a href="https://github.com/thijmennijdam/HIVE/issues"><img src="https://img.shields.io/badge/Issues-Report%20Issue-red" alt="Issues"></a>
 </p>
 
-
 ## Overview
 
-**HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic representations of data. The dashboard is the main contribution of this repository and is designed to be extensible: while we currently provide the HyCoCLIP model and the GRIT and ImageNet datasets as examples, **any model and dataset combination can be added by following the modular pipeline below**. Note that the dashboard currently only supports datasets in the format:
-dataset_name/
-    trees/  
-        tree1/ 
-            parent_images/
-            parent_texts/
-            child_images/
-            child_texts/
-        ...
+**HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic data representations. The dashboard is the core contribution of this repo. We include the HyCoCLIP model plus GRIT and ImageNet subsets as example use cases.
 
-But this can be adjusted easily
-[🎬 Demo video (MP4)](https://raw.githubusercontent.com/thijmennijdam/HIVE/main/HIVE_demo.mp4)
-
+🎬 **Demo:** [MP4 video](https://raw.githubusercontent.com/thijmennijdam/HIVE/main/HIVE_demo.mp4)
 
 ---
 
-## Features
-- Interactive visualization of hierarchical and hyperbolic embeddings
-- Support for multiple datasets (GRIT, ImageNet, and more via extension)
-- Compare different projection methods (HoroPCA, CO-SNE)
-- Dual-view and single-view modes
-- Tree, neighbor, and interpolation exploration modes
-- Extensible to new models and datasets
+## Quick Start
 
----
+### 0. Install `uv` (if you don’t already have it)
 
-## Setup Instructions
-
-### Prerequisites
-First, install uv if you haven't already:
 ```bash
-# Install uv (if not already installed)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Running the Dashboard
+### 1. Run the dashboard
 
 ```bash
-# 1. Create a virtual environment
+# Create a virtual environment
 uv venv
 
-# 2. Activate the virtual environment
-# On Linux/Mac:
+# Activate it
+# Linux/macOS
 source .venv/bin/activate
-# On Windows:
-# .venv\Scripts\activate
+# Windows (PowerShell)
+# .venv\Scripts\Activate.ps1
 
-# 3. Install dependencies
+# Install dependencies
 uv sync
 
-# 4. Run the dashboard
+# Launch
 uv run src/main.py
 ```
 
 ---
 
-## How the data was processed, and how to add your own
+## Using Your Own Datasets
 
-To visualize your data in HIVE, follow this modular pipeline:
+We expect datasets to be preprocessed into the following layout:
 
-1. **Tree Structure Creation** (`create_tree_structure.py`)
-   - **Purpose:** Organizes your raw dataset (e.g., ImageNet, GRIT) into a hierarchical tree structure with metadata.
-   - **Input:** Raw data (images, text, etc.) and any required metadata (e.g., synsets.csv for ImageNet).
-   - **Output:**
-     - Tree folders (e.g., `tree1`, `tree2`, ...)
-     - `meta_data_trees.json` (describes the tree structure and metadata)
-   - **Example:**
-     ```bash
-     python hierchical_datasets/create_tree_structure.py --dataset ImageNet --synsets_csv <PATH_TO_SYNSETS_CSV> --base_path <PATH_TO_RAW_IMAGES> --output_dir hierchical_datasets
-     ```
+```
+dataset_name/
+    trees/
+        tree1/
+            parent_images/
+            parent_texts/
+            child_images/
+            child_texts/
+        ...
+    embeddings.pkl
+    meta_data_trees.json
+```
 
-2. **Embedding Generation** (`generate_embeddings.py`)
-   - **Purpose:** Loads a model (e.g., HyCoCLIP) and generates embeddings for each node (image/text) in the tree structure.
-   - **Input:** The tree structure and metadata created in step 1, plus your model checkpoint/config.
-   - **Output:**
-     - `embeddings.pkl` (or similar) containing all generated embeddings
-   - **Example:**
-     ```bash
-     python hierchical_datasets/generate_embeddings.py --dataset ImageNet --checkpoint_path <MODEL_CHECKPOINT> --train_config <CONFIG_PATH> --output_dir hierchical_datasets
-     ```
+Once your data matches this structure, run:
 
-3. **Projection Creation** (`create_projections.py`)
-   - **Purpose:** Applies dimensionality reduction (HoroPCA, CO-SNE) to the embeddings for visualization.
-   - **Input:** Embeddings file (`embeddings.pkl`) and tree metadata (`meta_data_trees.json`).
-   - **Output:** 2D projections for visualization in the dashboard (e.g., `horopca_embeddings.pkl`, `cosne_embeddings.pkl`).
-   - **Example:**
-     ```bash
-     python projection_methods/create_projections.py --dataset-path hierchical_datasets/ImageNet --methods horopca cosne
-     ```
+```
+projections_methods/create_projections.py
+```
 
-4. **Visualization** (Dashboard)
-   - **Purpose:** Explore and analyze your data interactively.
-   - **Input:** Projected embeddings and metadata from previous steps.
-   - **How:**
-     ```bash
-     uv run src/main.py
-     ```
-   - The dashboard will be available at `http://localhost:8081`
+This script will generate:
 
+```
+cosine_embeddings.pkl
+horopca_embeddings.pkl
+```
 
-To add your own dataset or model for visualization in HIVE:
-
-1. **Prepare your dataset:**
-   - Organize your raw data and metadata as required (see the format used for ImageNet/GRIT).
-   - Use `create_tree_structure.py` to build the tree structure and metadata.
-2. **Generate embeddings:**
-   - Use `generate_embeddings.py` with your model checkpoint/config to create embeddings for each node in the tree.
-3. **Create projections:**
-   - Use `create_projections.py` to generate 2D projections for the dashboard.
-4. **Visualize:**
-   - Start the dashboard and select your dataset and projection method.
-
-**You can use any model that outputs embeddings for your data.** Just provide the correct checkpoint/config and ensure your data is organized in the expected tree format.
+You can now load your dataset and projections in the dashboard. Forking and adapting the code for custom data types is straightforward (and coding agents can help automate this).
 
 ---
 
-## Arguments for create_tree_structure.py
-- `--dataset` (str, required): Name of the dataset (e.g., `ImageNet`).
-- `--synsets_csv` (str, required for ImageNet): Path to synsets.csv.
-- `--base_path` (str, required for ImageNet): Path to raw images.
-- `--output_dir` (str, optional): Output directory for processed data (default: `hierchical_datasets/`).
+## Features
 
-## Arguments for generate_embeddings.py
-- `--dataset` (str, required): Name of the dataset (e.g., `ImageNet`).
-- `--checkpoint_path` (str, required): Path to the model checkpoint to use for embedding generation.
-- `--train_config` (str, required for HyCoCLIP): Path to the model config file (for HyCoCLIP).
-- `--output_dir` (str, optional): Output directory for processed data (default: `hierchical_datasets/`).
-
-## Arguments for create_projections.py
-- `--dataset-path` (str, required): Path to the processed dataset folder (e.g., `hierchical_datasets/ImageNet`).
-- `--methods` (list, required): Projection methods to use (`horopca`, `cosne`).
-- `--n-project` (int, optional): Number of samples to project (0 = all).
-- `--children-per-tree` (int, optional): Number of child images per tree (for balanced sampling).
-- `--seed` (int, optional): Random seed for reproducibility.
-- `--plot` (flag): Generate and save plots of the projections.
-
-**HoroPCA-specific:**
-- `--horopca-components` (int, default=2): Number of output dimensions.
-- `--horopca-lr` (float, default=0.05): Learning rate.
-- `--horopca-steps` (int, default=500): Maximum optimization steps.
-
-**CO-SNE-specific:**
-- `--cosne-reduce-method` (str): Pre-reduction method (`none`, `horopca`).
-- `--cosne-reduce-dim` (int): Pre-reduction dimension.
-- `--cosne-lr` (float): Main learning rate.
-- `--cosne-lr-h` (float): Hyperbolic learning rate.
-- `--cosne-perplexity` (float): Perplexity.
-- `--cosne-exaggeration` (float): Early exaggeration.
-- `--cosne-gamma` (float): Student-t gamma.
+* Interactive visualization of hierarchical & hyperbolic embeddings
+* Built-in support for GRIT and ImageNet
+* Compare projection methods (HoroPCA, CO-SNE)
+* Dual-view and single-view modes
+* Tree, neighbor, and interpolation exploration modes
+* Modular codebase for plugging in new models/datasets
 
 ---
 
 ## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for bug fixes, new features, or dataset/model integrations.
+
+Pull requests and issues are welcome, whether for bug fixes, new features, or additional dataset/model integrations.
 
 ---
 
 ## Citation
-If you use this dashboard or its visualizations in your work, please consider citing our paper!
+
+If you use HIVE or its visualizations, please cite:
 
 ```
 @inproceedings{nijdamhive,
   title={HIVE: A Hyperbolic Interactive Visualization Explorer for Representation Learning},
-  author={Nijdam, Thijmen and Prinzhorn, Derck WE and de Heus, Jurgen and Brouwer, Thomas},
+  author={Nijdam, Thijmen and Prinzhorn, Derck W. E. and de Heus, Jurgen and Brouwer, Thomas},
   booktitle={2nd Beyond Euclidean Workshop: Hyperbolic and Hyperspherical Learning for Computer Vision}
 }
 ```
@@ -181,4 +113,7 @@ If you use this dashboard or its visualizations in your work, please consider ci
 ---
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
