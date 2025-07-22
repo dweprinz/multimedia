@@ -4,8 +4,7 @@ import numpy as np
 import plotly.graph_objs as go
 from .projection import _interpolate_hyperbolic
 
-from .image_utils import _encode_image, _create_img_tag, _create_interpolated_img_tag, _create_content_element
-from .layout import _tree_node
+from .image_utils import _encode_image, _create_content_element
 import json
 
 def _create_hover_text(idx, points=None, meta=None):

@@ -58,27 +58,6 @@ def _create_img_tag(idx: int, images: np.ndarray | None) -> html.Img | html.Span
     except Exception:
         return html.Span()
 
-
-def _create_interpolated_img_tag(i: int, j: int, t_value: float, images: np.ndarray | None) -> html.Img | html.Span:
-    """Creates an image tag for the interpolated point."""
-    if images is None:
-        return html.Span()
-    images_np = np.asarray(images)
-    img1 = images_np[i].astype(np.float32)
-    img2 = images_np[j].astype(np.float32)
-    interpolated_img_data = (1 - t_value) * img1 + t_value * img2
-    pil = Image.fromarray(
-        (interpolated_img_data * 16).astype("uint8"), mode="L"
-    ).resize((64, 64), Image.Resampling.NEAREST if hasattr(Image, 'Resampling') else Image.NEAREST)
-    buf = io.BytesIO()
-    pil.save(buf, format="PNG")
-    uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
-    return html.Img(
-        src=uri,
-        style={"marginRight": "0.5rem", "border": "2px solid orange", "maxWidth": "300px", "maxHeight": "300px", "objectFit": "contain"},
-    )
-
-
 def _create_content_element(idx: int, images: np.ndarray | None, points: list | None = None, meta: dict | None = None) -> html.Div | html.Img | html.Span:
     """Creates either a text element or image element based on the embedding type."""
     # If we have points data, check the embedding type

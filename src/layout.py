@@ -1,4 +1,3 @@
-import dash
 from dash import dcc, html
 
 def _config_panel() -> html.Div:
