@@ -22,7 +22,7 @@ Both datasets create the same folder structure:
 - data/treeN/child_texts/: Contains child text data as txt files
 - data/treeN/parent_texts/: Contains parent text data as txt files
 - meta_data_trees.json: Contains tree structure and file paths
-- embeddings.json: Contains all embeddings indexed by ID
+- embeddings.pkl: Contains all embeddings indexed by ID
 """
 
 import os

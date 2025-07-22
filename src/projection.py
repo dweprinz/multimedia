@@ -1,34 +1,6 @@
 import numpy as np
-import umap
-
 import torch
 import lorentz as L
-
-# ... existing code for projection helpers ... 
-
-def _hyperboloid_2d(x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Return (xh, yh, zh) coordinates on the hyperboloid ℍ²."""
-    emb2 = umap.UMAP(
-        n_components=2,
-        n_jobs=1,
-        random_state=42,
-        output_metric="hyperboloid",
-    ).fit(x)
-    xh, yh = emb2.embedding_[:, 0], emb2.embedding_[:, 1]
-    zh = np.sqrt(1.0 + np.sum(emb2.embedding_**2, axis=1), dtype=np.float32)
-    return xh, yh, zh
-
-
-def _umap_hyperbolic(x: np.ndarray) -> np.ndarray:
-    """3D hyperbolic (hyperboloid model) embedding."""
-    xh, yh, zh = _hyperboloid_2d(x)
-    return np.column_stack((xh, yh, zh))
-
-
-PROJECTIONS = {
-    "UMAP": _umap_hyperbolic,
-}
-
 
 
 def interpolate(model, feats: torch.Tensor, root_feat: torch.Tensor, steps: int):

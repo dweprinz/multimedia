@@ -18,7 +18,6 @@ dependencies = [
     "seaborn",
     "torch",
     "tqdm",
-    "umap-learn",
     "numpy",
     "scipy",
     "torchvision",

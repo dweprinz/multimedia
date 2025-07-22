@@ -7,13 +7,22 @@
   <a href="https://github.com/thijmennijdam/HIVE/issues"><img src="https://img.shields.io/badge/Issues-Report%20Issue-red" alt="Issues"></a>
 </p>
 
-<video src="./HIVE_demo.mp4" controls width="600" style="display:block;margin:2em auto;max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-  Your browser does not support the video tag. <a href="./HIVE_demo.mp4">Watch the demo video here.</a>
-</video>
 
 ## Overview
 
-**HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic representations of data. The dashboard is the main contribution of this repository and is designed to be extensible: while we currently provide the HyCoCLIP model and the GRIT and ImageNet datasets as examples, **any model and dataset combination can be added by following the modular pipeline below**.
+**HIVE** is an interactive dashboard for visualizing and exploring hierarchical and hyperbolic representations of data. The dashboard is the main contribution of this repository and is designed to be extensible: while we currently provide the HyCoCLIP model and the GRIT and ImageNet datasets as examples, **any model and dataset combination can be added by following the modular pipeline below**. Note that the dashboard currently only supports datasets in the format:
+dataset_name/
+    trees/  
+        tree1/ 
+            parent_images/
+            parent_texts/
+            child_images/
+            child_texts/
+        ...
+
+But this can be adjusted easily
+[🎬 Demo video (MP4)](https://raw.githubusercontent.com/thijmennijdam/HIVE/main/HIVE_demo.mp4)
+
 
 ---
 
@@ -24,6 +33,36 @@
 - Dual-view and single-view modes
 - Tree, neighbor, and interpolation exploration modes
 - Extensible to new models and datasets
+
+---
+
+## Setup Instructions
+
+### Prerequisites
+First, install uv if you haven't already:
+```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### Running the Dashboard
+
+```bash
+# 1. Create a virtual environment
+uv venv
+
+# 2. Activate the virtual environment
+# On Linux/Mac:
+source .venv/bin/activate
+# On Windows:
+# .venv\Scripts\activate
+
+# 3. Install dependencies
+uv sync
+
+# 4. Run the dashboard
+uv run src/main.py
+```
 
 ---
 
